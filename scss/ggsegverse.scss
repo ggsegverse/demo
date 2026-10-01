@@ -150,6 +150,13 @@ h1, h2, h3, h4 {
 // ── Footer ──────────────────────────────────────────────
 
 .ggsegverse-footer {
+  // Laid out here rather than with Bootstrap's d-flex utilities, whose
+  // !important would override the embedded-mode hide below.
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   background-color: $ggseg-teal-dark;
   color: $ggseg-white;
   font-size: 0.85rem;
@@ -176,4 +183,18 @@ h1, h2, h3, h4 {
   padding-top: 1rem;
   font-size: 0.85rem;
   color: var(--bs-secondary-color);
+}
+
+// ── Embedded mode ───────────────────────────────────────
+// See the ?embed=1 handler in www/app.js.
+
+html.ggsegverse-embedded {
+  .navbar,
+  .ggsegverse-footer {
+    display: none;
+  }
+
+  .bslib-page-sidebar > .bslib-sidebar-layout {
+    border-top: 0;
+  }
 }

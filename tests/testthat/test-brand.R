@@ -95,3 +95,21 @@ describe("ggsegverse_footer()", {
     expect_match(html, ggsegverse_brand$meta$link, fixed = TRUE)
   })
 })
+
+describe("embedded mode", {
+  it("is triggered by ?embed= in the query string", {
+    js <- readLines(app_file("www/app.js"), warn = FALSE)
+    expect_match(
+      paste(js, collapse = "\n"),
+      'URLSearchParams(window.location.search).has("embed")',
+      fixed = TRUE
+    )
+  })
+
+  it("hides the app's own title bar and footer", {
+    css <- readLines(app_file("scss/ggsegverse.scss"), warn = FALSE)
+    block <- paste(css, collapse = "\n")
+    expect_match(block, "html.ggsegverse-embedded", fixed = TRUE)
+    expect_match(block, ".ggsegverse-footer", fixed = TRUE)
+  })
+})

@@ -3324,7 +3324,7 @@
       "checksum": "b5d7e3ccb556b2897f432fca2fafef15"
     },
     "R/brand.R": {
-      "checksum": "8d4d8e441e596d96eb05e23a8e18912d"
+      "checksum": "1e949c809c29a712bb56a02f794525e9"
     },
     "R/code_gen.R": {
       "checksum": "a5690ed98a5a33dc378f7bedb8fc8476"
@@ -3348,10 +3348,10 @@
       "checksum": "6c1451f6c874de40c00ce1a13d704a55"
     },
     "scss/ggsegverse.scss": {
-      "checksum": "940da5c9fb48e6f8de8370f89bc0c58e"
+      "checksum": "33b68b67aa6767c8d457d5b70af07469"
     },
     "www/app.js": {
-      "checksum": "4aed570cba6a8e3686648badf82c6996"
+      "checksum": "8cf728ec29c9bd4d835589418bb01cda"
     },
     "www/fonts/Nelphim.woff": {
       "checksum": "c935a4d0457d8fdea0aa8c00f20d151b"

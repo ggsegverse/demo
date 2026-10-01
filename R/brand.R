@@ -132,7 +132,7 @@ brand_logo <- function(size = c("medium", "small"),
 #' The ggsegverse footer the pkgdown sites carry
 ggsegverse_footer <- function(brand = ggsegverse_brand) {
   tags$div(
-    class = "ggsegverse-footer d-flex justify-content-between align-items-center flex-wrap gap-2",
+    class = "ggsegverse-footer",
     tags$span(
       tags$img(src = brand_logo("small", "dark", brand), alt = "ggsegverse"),
       " Part of the ",

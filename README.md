@@ -79,6 +79,10 @@ Three things about the brand are worth knowing:
 - The brand lists a `warning` swatch but no `warning` role, so `brand_colour()`
   falls back to the palette entry of the same name.
 
+Adding `?embed=1` to the URL hides the app's own title bar and footer, for
+embedding in a page that already has them — the ggsegverse website's playground
+does this.
+
 Colour mode follows the system by default and can be switched in the sidebar.
 Switching it changes the plot theme control rather than restyling the figure
 behind your back, so the snippet on screen still reproduces what you see.
@@ -108,8 +112,12 @@ both 2D and 3D. CI does this on every push.
 
 ## Deployment
 
+Live at
+<https://drmowinckels-ggsegverse-demo.share.connect.posit.cloud>, and embedded
+in the [ggsegverse website](https://ggsegverse.github.io) playground.
+
 The app deploys to [Posit Connect Cloud](https://connect.posit.cloud) from this
-repository. Connect Cloud reads `manifest.json`, which must sit next to `app.R`
+repository, republishing automatically on every push to `main`. Connect Cloud reads `manifest.json`, which must sit next to `app.R`
 and must be regenerated whenever the package set changes.
 
 Two constraints worth knowing:
@@ -117,7 +125,9 @@ Two constraints worth knowing:
 - Connect Cloud supports R 4.0.0–4.6.0. `data-raw/write_manifest.R` pins the
   recorded platform to 4.6.0 when the local R is newer.
 - Every ggsegverse package is served from r-universe rather than CRAN. The
-  manifest records that repository per package.
+  manifest records that repository per package, and Connect Cloud does honour
+  it — it builds them from source on first deploy, which makes a cold build
+  slow but it does succeed.
 
 ## Citation
 
