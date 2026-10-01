@@ -38,9 +38,19 @@ jobs:
 
       - name: Install atlas packages
         run: |
-          pkgs <- sub("^library\\\\((.*)\\\\)$", "\\\\1",
-                      grep("^library", readLines("R/atlas_packages.R"), value = TRUE))
-          install.packages(pkgs)
+          # The registry is the source of truth for which atlas packages the
+          # app needs; r-universe is not in this step's default repos.
+          pkgs <- unique(readRDS("data/atlas_registry.rds")$package)
+          pkgs <- setdiff(pkgs, rownames(installed.packages()))
+          repos <- c(
+            ggsegverse = "https://ggsegverse.r-universe.dev",
+            getOption("repos")
+          )
+          if (length(pkgs)) install.packages(pkgs, repos = repos)
+          missing <- setdiff(pkgs, rownames(installed.packages()))
+          if (length(missing)) {
+            stop("failed to install: ", toString(missing))
+          }
         shell: Rscript {0}
 
       - name: Run tests
