@@ -128,6 +128,12 @@ Two constraints worth knowing:
   manifest records that repository per package, and Connect Cloud does honour
   it — it builds them from source on first deploy, which makes a cold build
   slow but it does succeed.
+- **Install order matters.** The atlas packages on r-universe need a
+  development `ggseg.formats` (`>= 0.0.4.9004`), which the CRAN release
+  (`0.0.4`) does not satisfy — mixing the two gives
+  `namespace 'ggseg.formats' 0.0.4 is already loaded, but >= 0.0.4.9004 is
+  required` at load time. Put r-universe ahead of CRAN in `repos`, as the
+  install snippet above does.
 
 ## Citation
 

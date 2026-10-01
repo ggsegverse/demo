@@ -21,6 +21,9 @@ jobs:
           use-public-rspm: true
           extra-repositories: https://ggsegverse.r-universe.dev
 
+      # Only the packages that genuinely come from CRAN. The ggsegverse ones
+      # are installed below, because pak resolves them to their CRAN releases,
+      # and the atlas packages need the development ggseg.formats.
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: |
@@ -31,25 +34,36 @@ jobs:
             any::bsicons
             any::DT
             any::ggplot2
-            any::ggseg
-            any::ggseg3d
-            any::ggseg.formats
-            any::ggseg.meshes
+            any::sass
+            any::yaml
 
-      - name: Install atlas packages
+      - name: Install ggsegverse packages
         run: |
-          # The registry is the source of truth for which atlas packages the
-          # app needs; r-universe is not in this step's default repos.
-          pkgs <- unique(readRDS("data/atlas_registry.rds")$package)
-          pkgs <- setdiff(pkgs, rownames(installed.packages()))
+          # r-universe first: the atlas packages depend on development
+          # versions of ggseg.formats that the CRAN releases do not satisfy.
           repos <- c(
             ggsegverse = "https://ggsegverse.r-universe.dev",
             getOption("repos")
           )
-          if (length(pkgs)) install.packages(pkgs, repos = repos)
+          core <- c("ggseg.formats", "ggseg", "ggseg3d", "ggseg.meshes")
+          atlases <- unique(readRDS("data/atlas_registry.rds")$package)
+          pkgs <- unique(c(core, atlases))
+
+          install.packages(pkgs, repos = repos)
+
           missing <- setdiff(pkgs, rownames(installed.packages()))
           if (length(missing)) {
             stop("failed to install: ", toString(missing))
+          }
+
+          # A CRAN ggseg.formats here would break every atlas package at load
+          # time, so fail now with a clear message rather than deep in a test.
+          formats <- packageVersion("ggseg.formats")
+          if (formats < "0.0.4.9004") {
+            stop(
+              "ggseg.formats ", formats, " came from CRAN; ",
+              "the atlas packages need the r-universe development version"
+            )
           }
         shell: Rscript {0}
 
