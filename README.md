@@ -65,6 +65,14 @@ Three things about the brand are worth knowing:
   parents above, and then errors on the brand's `light:`/`dark:` colour roles,
   which are a Quarto extension its reader does not accept. `R/brand.R` resolves
   those roles itself.
+
+  The discovery is not something passing `brand = FALSE` avoids:
+  `bslib:::precompiled_bs_theme_hash()` calls `bs_theme()` with no arguments
+  while rendering the page, so **any** bslib app run from a directory tree that
+  contains a Quarto-flavour `_brand.yml` fails with
+  `` `color.primary` must be a single string ``. If this app suddenly returns
+  500 on a machine where it used to work, look for a stray `_brand.yml` in a
+  parent directory before suspecting the app.
 - The brand's logo roles are inverted upstream: `logo.medium.light` points at
   the pale-ink artwork meant for dark backgrounds. `brand_logo_roles_inverted`
   in `R/brand.R` works around it, and a test fails once it is fixed upstream.
