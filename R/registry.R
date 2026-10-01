@@ -3,7 +3,7 @@
 # every atlas exported by the installed ggsegverse packages.
 
 atlas_registry <- local({
-  reg <- readRDS("data/atlas_registry.rds")
+  reg <- readRDS(app_file("data/atlas_registry.rds"))
   reg$id <- paste(reg$package, reg$object, sep = "::")
   reg$label <- sprintf("%s  —  %d regions", reg$object, reg$n_regions)
   reg

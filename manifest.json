@@ -3306,16 +3306,25 @@
   },
   "files": {
     "app.R": {
-      "checksum": "aa82324bfbe43a10329e842c9d7ca625"
+      "checksum": "68fdcc134b1c8523c68232ebd708e67a"
+    },
+    "brand/ggsegverse-brand.yml": {
+      "checksum": "7db680b58229055b00536a03a8722ebe"
     },
     "data/atlas_registry.rds": {
       "checksum": "3e52d01e66e520f3a74fc997cfd8d504"
+    },
+    "R/aaa-utils.R": {
+      "checksum": "90befd5577a1706787891692bba66ec9"
     },
     "R/about.R": {
       "checksum": "5df9faaec2d28d49d115b7259d8a88b7"
     },
     "R/atlas_packages.R": {
       "checksum": "b5d7e3ccb556b2897f432fca2fafef15"
+    },
+    "R/brand.R": {
+      "checksum": "8d4d8e441e596d96eb05e23a8e18912d"
     },
     "R/code_gen.R": {
       "checksum": "a5690ed98a5a33dc378f7bedb8fc8476"
@@ -3330,22 +3339,37 @@
       "checksum": "d14a4370e701e78060ea3642621b774b"
     },
     "R/mod_view_2d.R": {
-      "checksum": "fa2ab913554d52ec5458a05568d396c5"
+      "checksum": "b80f73658cc978dd0b2e07250dfb2e78"
     },
     "R/mod_view_3d.R": {
-      "checksum": "8694bdf8a11d6ad9be146ef4366996ee"
+      "checksum": "952d1c34ac0889a73127a2e87d67b3e6"
     },
     "R/registry.R": {
-      "checksum": "e1ad44b05346ab4bb3c7116654c67ddb"
+      "checksum": "6c1451f6c874de40c00ce1a13d704a55"
     },
-    "R/utils.R": {
-      "checksum": "386a7ce36e618141061bfbc3af92885c"
-    },
-    "www/app.css": {
-      "checksum": "3e310410a1fd1a48e91979629cbacbba"
+    "scss/ggsegverse.scss": {
+      "checksum": "940da5c9fb48e6f8de8370f89bc0c58e"
     },
     "www/app.js": {
-      "checksum": "ace3379d20505137d7960915f377aee6"
+      "checksum": "4aed570cba6a8e3686648badf82c6996"
+    },
+    "www/fonts/Nelphim.woff": {
+      "checksum": "c935a4d0457d8fdea0aa8c00f20d151b"
+    },
+    "www/fonts/Nelphim.woff2": {
+      "checksum": "ed78fe00913da90f2219a5f6530d5b0a"
+    },
+    "www/images/logo_dark.png": {
+      "checksum": "7203cd4da399450e0dbc74e6a1cf751d"
+    },
+    "www/images/logo_light.png": {
+      "checksum": "4629082a2cd27ac00ea954eef73f4f9b"
+    },
+    "www/images/submark_dark.png": {
+      "checksum": "181dc4fe84f02cea420dd8230bc5e3d4"
+    },
+    "www/images/submark_light.png": {
+      "checksum": "48aa5170fda58fcc20f9c289f5a9c974"
     }
   },
   "users": null

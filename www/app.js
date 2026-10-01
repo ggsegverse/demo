@@ -6,3 +6,9 @@ Shiny.addCustomMessageHandler("copy-code", function(msg) {
     setTimeout(function() { el.classList.remove("copied"); }, 700);
   });
 });
+
+Shiny.addCustomMessageHandler("brand-logo", function(msg) {
+  document.querySelectorAll(".ggsegverse-title img").forEach(function(img) {
+    img.src = msg.src;
+  });
+});

@@ -17,8 +17,11 @@ rsconnect::writeManifest(
   appPrimaryDoc = "app.R",
   appFiles = c(
     "app.R",
-    list.files("R", full.names = TRUE),
-    list.files("www", full.names = TRUE),
+    list.files(
+      c("R", "www", "scss", "brand"),
+      full.names = TRUE,
+      recursive = TRUE
+    ),
     "data/atlas_registry.rds"
   )
 )

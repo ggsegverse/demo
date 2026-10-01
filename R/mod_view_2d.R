@@ -65,9 +65,18 @@ view_2d_main_ui <- function(id) {
   )
 }
 
-view_2d_server <- function(id, atlas_id) {
+view_2d_server <- function(id, atlas_id, dark_mode = reactive(FALSE)) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+
+    # Follow the app's colour mode with a visible change to the theme control,
+    # so the snippet on screen still reproduces the figure exactly.
+    observeEvent(dark_mode(), {
+      updateSelectInput(
+        session, "theme",
+        selected = if (dark_mode()) "theme_darkbrain" else "theme_void"
+      )
+    })
 
     atlas_kind <- reactive(atlas_meta(atlas_id())$type)
 

@@ -11,13 +11,12 @@ library(ggseg.formats)
 # Shiny sources along with the rest of R/ before this file runs.
 
 ui <- page_sidebar(
-  title = "The ggsegverse",
-  theme = bs_theme(
-    version = 5,
-    preset = "shiny",
-    base_font = font_google("Inter"),
-    code_font = font_google("JetBrains Mono")
+  title = tags$span(
+    class = "ggsegverse-title",
+    tags$img(src = brand_logo("medium", "light"), alt = "ggsegverse"),
+    "brain atlas demo"
   ),
+  theme = ggsegverse_theme(),
   sidebar = sidebar(
     width = 330,
     atlas_picker_ui("picker"),
@@ -28,12 +27,14 @@ ui <- page_sidebar(
     conditionalPanel(
       condition = "input.view == '3D'",
       view_3d_controls_ui("plot3d")
+    ),
+    tags$div(
+      class = "mode-switch d-flex align-items-center gap-2",
+      input_dark_mode(id = "mode"),
+      tags$span("Colour mode")
     )
   ),
-  tags$head(
-    tags$script(src = "app.js"),
-    tags$link(rel = "stylesheet", href = "app.css")
-  ),
+  tags$head(tags$script(src = "app.js")),
   useBusyIndicators(),
   busyIndicatorOptions(spinner_type = "dots", spinner_delay = "0.1s"),
   navset_card_underline(
@@ -42,15 +43,24 @@ ui <- page_sidebar(
     nav_panel("3D", view_3d_main_ui("plot3d")),
     nav_panel("Regions", regions_main_ui("regions")),
     nav_panel("About", about_ui())
-  )
+  ),
+  ggsegverse_footer()
 )
 
 server <- function(input, output, session) {
   atlas_id <- atlas_picker_server("picker")
+  dark_mode <- reactive(identical(input$mode, "dark"))
 
-  view_2d_server("plot2d", atlas_id)
-  view_3d_server("plot3d", atlas_id)
+  view_2d_server("plot2d", atlas_id, dark_mode)
+  view_3d_server("plot3d", atlas_id, dark_mode)
   regions_server("regions", atlas_id)
+
+  observe({
+    session$sendCustomMessage(
+      "brand-logo",
+      list(src = brand_logo("medium", if (dark_mode()) "dark" else "light"))
+    )
+  })
 }
 
 shinyApp(ui, server)

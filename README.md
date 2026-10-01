@@ -18,7 +18,8 @@ apart, so anything you copy out of the app runs unchanged in your own session.
 
 ```r
 install.packages(
-  c("shiny", "bslib", "bsicons", "DT", "ggseg", "ggseg3d", "ggseg.meshes"),
+  c("shiny", "bslib", "bsicons", "DT", "sass", "yaml",
+    "ggseg", "ggseg3d", "ggseg.meshes"),
   repos = c(
     ggsegverse = "https://ggsegverse.r-universe.dev",
     CRAN = "https://cloud.r-project.org"
@@ -39,8 +40,40 @@ The atlas packages the app needs are listed in `R/atlas_packages.R`.
 | `R/code_gen.R` | snippet generation, and `run_code()` which evaluates it |
 | `R/mod_*.R` | Shiny modules: atlas picker, 2D view, 3D view, regions, code panel |
 | `R/atlas_packages.R` | generated `library()` calls, one per atlas package |
+| `R/brand.R` | reads the ggsegverse brand and builds the bslib theme |
+| `brand/` | the synced ggsegverse brand definition |
+| `scss/ggsegverse.scss` | app styling, mirroring the pkgdown theme |
 | `data/atlas_registry.rds` | generated index of every available atlas |
 | `data-raw/` | the scripts that generate the two files above, and `manifest.json` |
+
+## Theming
+
+The app is themed from the ggsegverse brand, the same definition the website
+and the pkgdown sites use. `data-raw/sync_brand.R` pulls `_brand.yml` and the
+brand fonts and logos out of the website repo into `brand/` and `www/`; the
+vendored copies are committed so a deployment never depends on the network.
+
+`R/brand.R` turns that into a `bs_theme()`, and `scss/ggsegverse.scss` mirrors
+`ggseg.docs/inst/pkgdown/extra.scss` so the demo reads as part of the same
+family. No colour is hard-coded in either file — the palette reaches the
+stylesheet as Sass variables generated from the brand.
+
+Three things about the brand are worth knowing:
+
+- The brand file is **not** named `_brand.yml` here. bslib auto-discovers that
+  filename in the app directory, in a `brand/` subdirectory and up to 20
+  parents above, and then errors on the brand's `light:`/`dark:` colour roles,
+  which are a Quarto extension its reader does not accept. `R/brand.R` resolves
+  those roles itself.
+- The brand's logo roles are inverted upstream: `logo.medium.light` points at
+  the pale-ink artwork meant for dark backgrounds. `brand_logo_roles_inverted`
+  in `R/brand.R` works around it, and a test fails once it is fixed upstream.
+- The brand lists a `warning` swatch but no `warning` role, so `brand_colour()`
+  falls back to the palette entry of the same name.
+
+Colour mode follows the system by default and can be switched in the sidebar.
+Switching it changes the plot theme control rather than restyling the figure
+behind your back, so the snippet on screen still reproduces what you see.
 
 ## Regenerating the registry
 
@@ -48,6 +81,7 @@ After installing or updating atlas packages:
 
 ```r
 source("data-raw/build_registry.R")   # rebuilds data/atlas_registry.rds and R/atlas_packages.R
+source("data-raw/sync_brand.R")       # re-pulls the brand assets
 source("data-raw/write_manifest.R")   # rebuilds manifest.json
 ```
 

@@ -14,14 +14,21 @@ camera_presets <- c(
   "right anterior", "right posterior"
 )
 
-backgrounds <- c("White" = "white", "Light grey" = "#f8f9fa", "Black" = "black")
+brand_backgrounds <- function() {
+  c(
+    "White" = "white",
+    "Brand light" = brand_colour("background", "light"),
+    "Brand dark" = brand_colour("background", "dark"),
+    "Black" = "black"
+  )
+}
 
 view_3d_controls_ui <- function(id) {
   ns <- NS(id)
   tagList(
     uiOutput(ns("type_controls")),
     selectInput(ns("camera"), "Camera", camera_presets, selected = "left lateral"),
-    selectInput(ns("background"), "Background", backgrounds),
+    selectInput(ns("background"), "Background", brand_backgrounds()),
     checkboxInput(ns("legend"), "Show legend", value = TRUE)
   )
 }
@@ -38,9 +45,16 @@ view_3d_main_ui <- function(id) {
   )
 }
 
-view_3d_server <- function(id, atlas_id) {
+view_3d_server <- function(id, atlas_id, dark_mode = reactive(FALSE)) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+
+    observeEvent(dark_mode(), {
+      updateSelectInput(
+        session, "background",
+        selected = brand_colour("background", if (dark_mode()) "dark" else "light")
+      )
+    })
 
     meta <- reactive(atlas_meta(atlas_id()))
     atlas_kind <- reactive(meta()$type)

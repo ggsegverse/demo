@@ -1,0 +1,68 @@
+meta:
+  name: ggsegverse
+  link: https://ggsegverse.github.io
+
+color:
+  palette:
+    teal-dark: "#29393e"
+    teal-light: "#a8c5cb"
+    mauve: "#cec4cc"
+    plum: "#5e3c58"
+    slate-900: "#1a2a2e"
+    white: "#f2f0ef"
+    success: "#478f76"
+    danger: "#CD6689"
+    warning: "#e5a663"
+  primary:
+    light: teal-dark
+    dark: teal-light
+  secondary:
+    light: plum
+    dark: mauve
+  tertiary:
+    light: teal-light
+    dark: teal-dark
+  foreground:
+    light: slate-900
+    dark: white
+  background:
+    light: white
+    dark: slate-900
+  success: success
+  danger: danger
+
+
+logo:
+  small:
+    light: images/submark_dark.png
+    dark: images/submark_light.png
+  medium:
+    light: images/logo_dark.png
+    dark: images/logo_light.png
+
+typography:
+  fonts:
+    - family: Nelphim
+      source: file
+      files:
+        - path: fonts/Nelphim.woff2
+          weight: normal
+        - path: fonts/Nelphim.woff
+          weight: normal
+    - family: Montserrat
+      source: google
+    - family: Source Serif 4
+      source: google
+    - family: Fira Code
+      source: google
+  base: Source Serif 4
+  headings: Montserrat
+  link:
+    color:
+      light: teal-dark
+      dark: teal-light
+  monospace: Fira Code
+  monospace-block:
+    background-color:
+      light: mauve
+      dark: teal-dark
