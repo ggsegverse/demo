@@ -1,0 +1,48 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GGSEGDEMO_FULL_TESTS: "1"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.6.0"
+          use-public-rspm: true
+          extra-repositories: https://ggsegverse.r-universe.dev
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::testthat
+            any::withr
+            any::shiny
+            any::bslib
+            any::bsicons
+            any::DT
+            any::ggplot2
+            any::ggseg
+            any::ggseg3d
+            any::ggseg.formats
+            any::ggseg.meshes
+
+      - name: Install atlas packages
+        run: |
+          pkgs <- sub("^library\\\\((.*)\\\\)$", "\\\\1",
+                      grep("^library", readLines("R/atlas_packages.R"), value = TRUE))
+          install.packages(pkgs)
+        shell: Rscript {0}
+
+      - name: Run tests
+        run: testthat::test_dir("tests/testthat", stop_on_failure = TRUE)
+        shell: Rscript {0}
