@@ -101,7 +101,7 @@ describe("embedded mode", {
     js <- readLines(app_file("www/app.js"), warn = FALSE)
     expect_match(
       paste(js, collapse = "\n"),
-      'URLSearchParams(window.location.search).has("embed")',
+      'params.has("embed")',
       fixed = TRUE
     )
   })
@@ -111,5 +111,22 @@ describe("embedded mode", {
     block <- paste(css, collapse = "\n")
     expect_match(block, "html.ggsegverse-embedded", fixed = TRUE)
     expect_match(block, ".ggsegverse-footer", fixed = TRUE)
+  })
+})
+
+describe("embedded colour mode", {
+  it("accepts a mode from the query string and from the parent page", {
+    js <- paste(readLines(app_file("www/app.js"), warn = FALSE), collapse = "\n")
+    expect_match(js, 'params.get("mode")', fixed = TRUE)
+    expect_match(js, '"ggsegverse-set-mode"', fixed = TRUE)
+  })
+
+  it("ignores any mode that is not light or dark", {
+    js <- paste(readLines(app_file("www/app.js"), warn = FALSE), collapse = "\n")
+    expect_match(
+      js,
+      'if (mode !== "light" && mode !== "dark") return;',
+      fixed = TRUE
+    )
   })
 })
